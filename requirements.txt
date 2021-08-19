@@ -1,0 +1,7 @@
+tensorboard
+opencv-python
+glob2
+six
+pyyaml
+easydict
+nuscenes-devkit

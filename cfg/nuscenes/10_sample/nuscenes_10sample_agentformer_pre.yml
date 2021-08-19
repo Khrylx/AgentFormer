@@ -1,0 +1,85 @@
+# ------------------- General Options -------------------------
+
+description                  : AgentFormer (Before DLow)
+results_root_dir             : results
+seed                         : 1
+dataset                      : nuscenes_pred
+data_root_ethucy             : datasets/eth_ucy
+data_root_nuscenes_pred      : datasets/nuscenes_pred
+load_map                     : true
+map_version                  : 0.1
+
+# ------------------- Feature Extractor -------------------------
+
+past_frames                  : 4
+future_frames                : 12
+min_past_frames              : 2
+min_future_frames            : 12
+
+traj_scale                   : 20
+motion_dim                   : 2
+forecast_dim                 : 2
+
+# ------------------- Model -------------------------
+
+model_id: agentformer
+tf_version: v2
+tf_model_dim: 256
+tf_ff_dim: 512
+tf_nhead: 8
+tf_dropout: 0.1
+input_type: ['scene_norm', 'vel', 'heading', 'map']
+fut_input_type: ['scene_norm', 'vel', 'heading', 'map']
+dec_input_type: ['heading', 'map']
+pred_type: 'scene_norm'
+sn_out_type: 'norm'
+pos_concat: true
+rand_rot_scene: true
+
+use_map: true
+map_encoder:
+  model_id: map_cnn
+  normalize: true
+  hdim: [32, 32, 32, 1]
+  kernels: [5, 5, 5, 3]
+  strides: [2, 2, 1, 1]
+  out_dim: 32
+  dropout: 0.0
+
+context_encoder:
+  nlayer: 2
+
+future_decoder:
+  nlayer: 2
+  out_mlp_dim: [512, 256]
+
+future_encoder:
+  nlayer: 2
+
+# ------------------- VAE-------------------------
+
+nz                           : 32
+sample_k                     : 10
+learn_prior                  : true
+
+# ------------------- Training Parameters -------------------------
+
+lr                           : 1.e-4
+loss_cfg:
+  mse:
+    weight: 1.0
+  kld:
+    weight: 1.0
+    min_clip: 2.0
+  sample:
+    weight: 1.0
+    k: 10
+
+num_epochs                   : 100
+lr_fix_epochs                : 10
+lr_scheduler: 'step'
+decay_step: 10
+decay_gamma: 0.5
+print_freq                   : 20
+model_save_freq              : 10
+

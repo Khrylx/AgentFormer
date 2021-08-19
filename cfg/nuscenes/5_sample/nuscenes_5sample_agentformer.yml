@@ -1,0 +1,56 @@
+# ------------------- General Options -------------------------
+
+description                  : AgentFormer (DLow)
+results_root_dir             : results
+seed                         : 1 
+dataset                      : nuscenes_pred
+data_root_ethucy             : datasets/eth_ucy
+data_root_nuscenes_pred      : datasets/nuscenes_pred
+load_map                     : true
+map_version                  : 0.1
+
+# ------------------- Feature Extractor -------------------------
+
+past_frames                  : 4
+future_frames                : 12
+min_past_frames              : 2
+min_future_frames            : 12
+
+traj_scale                   : 10
+motion_dim                   : 2
+forecast_dim                 : 2
+
+# ------------------- Model -------------------------
+model_id: dlow
+pred_cfg: nuscenes_5sample_agentformer_pre
+pred_epoch: 100
+qnet_mlp: [512, 256]
+share_eps: true
+train_w_mean: true
+
+# ------------------- VAE-------------------------
+
+nz                           : 32
+sample_k                     : 5
+
+# ------------------- Training Parameters -------------------------
+
+lr                           : 1.e-4
+loss_cfg:
+  kld:
+    weight: 0.1
+    min_clip: 10
+  diverse:
+    weight: 1
+    d_scale: 2
+  recon:
+    weight: 5.0
+
+num_epochs                   : 50
+lr_fix_epochs                : 10
+lr_scheduler: 'step'
+decay_step: 5
+decay_gamma: 0.5
+print_freq                   : 20
+model_save_freq              : 5
+
