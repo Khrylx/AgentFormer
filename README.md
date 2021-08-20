@@ -23,7 +23,7 @@ Ye Yuan, Xinshuo Weng, Yanglan Ou, Kris Kitani
     pip install -r requirements.txt
     ```
 
-### Dataset
+### Datasets
 * For the ETH/UCY dataset, we already included a converted version compatible with our dataloader under [datasets/eth_ucy](datasets/eth_ucy).
 * For the nuScenes dataset, the following steps are required:
   1. Download the orignal [nuScenes](https://www.nuscenes.org/nuscenes) dataset. Checkout the instructions [here](https://github.com/nutonomy/nuscenes-devkit).
@@ -68,7 +68,7 @@ You can replace `5sample` with {`10sample`, `1sample`} to compute all the metric
 
 # Training
 You can train your own models with your customized configs. Here we take the ETH dataset as an example, but you can train models for other datasets with their corresponding [configs](cfg). AgentFormer requires **two-stage** training:
-1. Train the AgentFormer VAE model (Everything but the trajectory sampler):
+1. Train the AgentFormer VAE model (everything but the trajectory sampler):
     ```
     python train.py --cfg user_eth_agentformer_pre --gpu 0
     ```
