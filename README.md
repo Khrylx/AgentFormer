@@ -55,6 +55,7 @@ You can replace `eth` with {`hotel`, `univ`, `zara1`, `zara2`} to test other dat
 | Univ  | 0.26 | 0.46 |
 | Zara1 | 0.15 | 0.23 |
 | Zara2 | 0.14 | 0.24 |
+|  Avg  | 0.18 | 0.29 |
 
 ### nuScenes
 Run the following command to test pretrained models for the nuScenes dataset:
