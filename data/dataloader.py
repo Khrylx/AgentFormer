@@ -51,7 +51,7 @@ class data_generator(object):
         
         self.sample_list = list(range(self.num_total_samples))
         self.index = 0
-        print(f'total num samples: {self.num_total_samples}')
+        print_log(f'total num samples: {self.num_total_samples}', log)
         print_log("------------------------------ done --------------------------------\n", log=log)
 
     def shuffle(self):

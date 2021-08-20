@@ -104,7 +104,7 @@ if __name__ == '__main__':
 
     if args.start_epoch > 0:
         cp_path = cfg.model_path % args.start_epoch
-        print('loading model from checkpoint: %s' % cp_path)
+        print_log(f'loading model from checkpoint: {cp_path}', log)
         model_cp = torch.load(cp_path, map_location='cpu')
         model.load_state_dict(model_cp['model_dict'])
         if 'opt_dict' in model_cp:

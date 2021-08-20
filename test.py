@@ -79,7 +79,7 @@ def test_model(generator, save_dir, cfg):
         num_pred = save_prediction(gt_motion_3D, data, '', gt_dir)              # save gt
         total_num_pred += num_pred
 
-    print('\n\n total_num_pred:', total_num_pred)
+    print_log(f'\n\n total_num_pred: {total_num_pred}', log)
     if cfg.dataset == 'nuscenes_pred':
         scene_num = {
             'train': 32186,
@@ -110,7 +110,7 @@ if __name__ == '__main__':
     device = torch.device('cuda', index=args.gpu) if args.gpu >= 0 and torch.cuda.is_available() else torch.device('cpu')
     if torch.cuda.is_available(): torch.cuda.set_device(args.gpu)
     torch.set_grad_enabled(False)
-    log = open(os.path.join(cfg.log_dir, 'log_eval.txt'), 'w')
+    log = open(os.path.join(cfg.log_dir, 'log_test.txt'), 'w')
 
     for epoch in epochs:
         prepare_seed(cfg.seed)
@@ -136,7 +136,7 @@ if __name__ == '__main__':
             if not args.cached:
                 test_model(generator, save_dir, cfg)
 
-            log_file = os.path.join(cfg.log_dir, 'log_metrics.txt')
+            log_file = os.path.join(cfg.log_dir, 'log_eval.txt')
             cmd = f"python eval.py --dataset {cfg.dataset} --results_dir {eval_dir} --data {split} --log {log_file}"
             subprocess.run(cmd.split(' '))
 

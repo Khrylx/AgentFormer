@@ -101,7 +101,6 @@ class PositionalAgentEncoding(nn.Module):
 
 """ Context (Past) Encoder """
 class ContextEncoder(nn.Module):
-    """ RNN to extract temporal feature first then GNN"""
     def __init__(self, cfg, ctx, **kwargs):
         super().__init__()
         self.cfg = cfg
