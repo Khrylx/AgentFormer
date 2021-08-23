@@ -61,7 +61,7 @@ class PositionalAgentEncoding(nn.Module):
 
     def build_agent_enc(self, max_len):
         ae = torch.zeros(max_len, self.d_model)
-        position = torch.arange(0, max_len, dtyae=torch.float).unsqueeze(1)
+        position = torch.arange(0, max_len, dtype=torch.float).unsqueeze(1)
         div_term = torch.exp(torch.arange(0, self.d_model, 2).float() * (-np.log(10000.0) / self.d_model))
         ae[:, 0::2] = torch.sin(position * div_term)
         ae[:, 1::2] = torch.cos(position * div_term)
