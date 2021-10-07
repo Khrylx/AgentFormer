@@ -278,7 +278,6 @@ class FutureDecoder(nn.Module):
         self.dropout = ctx['tf_dropout']
         self.nlayer = cfg.get('nlayer', 6)
         self.out_mlp_dim = cfg.get('out_mlp_dim', None)
-        self.out_cat = cfg.get('out_cat', [])
         self.pos_offset = cfg.get('pos_offset', False)
         self.agent_enc_shuffle = ctx['agent_enc_shuffle']
         self.learn_prior = ctx['learn_prior']
@@ -296,10 +295,6 @@ class FutureDecoder(nn.Module):
             self.out_fc = nn.Linear(self.model_dim, forecast_dim)
         else:
             in_dim = self.model_dim
-            if 'map' in self.out_cat:
-                in_dim += ctx['map_enc_dim']
-            if 'z' in self.out_cat:
-                in_dim += self.nz
             self.out_mlp = MLP(in_dim, self.out_mlp_dim, 'relu')
             self.out_fc = nn.Linear(self.out_mlp.out_dim, forecast_dim)
         initialize_weights(self.out_fc.modules())
@@ -347,14 +342,6 @@ class FutureDecoder(nn.Module):
 
             out_tmp = tf_out.view(-1, tf_out.shape[-1])
             if self.out_mlp_dim is not None:
-                cat_arr = [out_tmp]
-                if 'map' in self.out_cat:
-                    map_tmp = data['map_enc'].unsqueeze(0).repeat((i + 1, sample_num, 1)).view(-1, data['map_enc'].shape[-1])
-                    cat_arr.append(map_tmp)
-                if 'z' in self.out_cat:
-                    z_tmp = z_in.repeat((i + 1, 1, 1)).view(-1, self.nz)
-                    cat_arr.append(z_tmp)
-                out_tmp = torch.cat(cat_arr, dim=-1)
                 out_tmp = self.out_mlp(out_tmp)
             seq_out = self.out_fc(out_tmp).view(tf_out.shape[0], -1, self.forecast_dim)
             if self.pred_type == 'scene_norm' and self.sn_out_type in {'vel', 'norm'}:
@@ -532,7 +519,11 @@ class AgentFormer(nn.Module):
         self.data['fut_motion_orig'] = torch.stack(in_data['fut_motion_3D'], dim=0).to(device)   # future motion without transpose
         self.data['fut_mask'] = torch.stack(in_data['fut_motion_mask'], dim=0).to(device)
         self.data['pre_mask'] = torch.stack(in_data['pre_motion_mask'], dim=0).to(device)
-        self.data['scene_orig'] = torch.cat([self.data['pre_motion'], self.data['fut_motion']]).view(-1, 2).mean(dim=0)
+        scene_orig_all_past = self.cfg.get('scene_orig_all_past', False)
+        if scene_orig_all_past:
+            self.data['scene_orig'] = self.data['pre_motion'].view(-1, 2).mean(dim=0)
+        else:
+            self.data['scene_orig'] = self.data['pre_motion'][-1].mean(dim=0)
         if in_data['heading'] is not None:
             self.data['heading'] = torch.tensor(in_data['heading']).float().to(device)
 

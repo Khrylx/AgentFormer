@@ -33,7 +33,7 @@ Ye Yuan, Xinshuo Weng, Yanglan Ou, Kris Kitani
       python data/process_nuscenes.py --data_root <PATH_TO_NUSCENES>
       ``` 
 ### Pretrained Models
-* You can download pretrained models from [Google Drive](https://drive.google.com/file/d/1-pJrGPCcbaiCpENss5jYzRF_ZFJncFJB/view?usp=sharing) or [BaiduYun](https://pan.baidu.com/s/16tLMEYvE5R2i6pYCzT8dLQ) (password: tisw) to reproduce the numbers in the paper.
+* You can download pretrained models from [Google Drive](https://drive.google.com/file/d/1-pJrGPCcbaiCpENss5jYzRF_ZFJncFJB/view?usp=sharing) or [BaiduYun](https://pan.baidu.com/s/1b6Ms_aY4U0fhCe5C8cznVQ) (password: 9rvb) to reproduce the numbers in the paper.
 * Once the `agentformer_models.zip` file is downloaded, place it under the root folder of this repo and unzip it:
   ```
   unzip agentformer_models.zip
@@ -50,22 +50,22 @@ python test.py --cfg eth_agentformer --gpu 0
 You can replace `eth` with {`hotel`, `univ`, `zara1`, `zara2`} to test other datasets in ETH/UCY. You should be able to get the numbers reported in the paper as shown in this table:
 | Ours  | ADE  | FDE  |
 |-------|------|------|
-| ETH   | 0.26 | 0.39 |
-| Hotel | 0.11 | 0.14 |
-| Univ  | 0.26 | 0.46 |
-| Zara1 | 0.15 | 0.23 |
+| ETH   | 0.45 | 0.75 |
+| Hotel | 0.14 | 0.22 |
+| Univ  | 0.25 | 0.45 |
+| Zara1 | 0.18 | 0.30 |
 | Zara2 | 0.14 | 0.24 |
-|  Avg  | 0.18 | 0.29 |
+|  Avg  | 0.23 | 0.39 |
 
 ### nuScenes
 Run the following command to test pretrained models for the nuScenes dataset:
 ```
 python test.py --cfg nuscenes_5sample_agentformer --gpu 0
 ```
-You can replace `5sample` with {`10sample`, `1sample`} to compute all the metrics (ADE_5, FDE_5, ADE_10, FDE_10, ADE_1, FDE_1). You should be able to get the numbers reported in the paper as shown in this table:
-|       | ADE_5 | FDE_5 | ADE_10 | FDE_10 | ADE_1 | FDE_1 |
-|-------|-------|-------|--------|--------|-------|-------|
-| Ours  | 1.595 | 3.143 |  1.310 |  2.479 | 2.885 | 6.448 |
+You can replace `5sample` with `10sample` to compute all the metrics (ADE_5, FDE_5, ADE_10, FDE_10). You should be able to get the numbers reported in the paper as shown in this table:
+|       | ADE_5 | FDE_5 | ADE_10 | FDE_10 |
+|-------|-------|-------|--------|--------|
+| Ours  | 1.856 | 3.889 |  1.452 |  2.856 |
 
 # Training
 You can train your own models with your customized configs. Here we take the ETH dataset as an example, but you can train models for other datasets with their corresponding [configs](cfg). AgentFormer requires **two-stage** training:

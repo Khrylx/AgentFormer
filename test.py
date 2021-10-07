@@ -116,13 +116,13 @@ if __name__ == '__main__':
         prepare_seed(cfg.seed)
         """ model """
         if not args.cached:
-            model_id = cfg.get('model_id', 'gnnv1')
+            model_id = cfg.get('model_id', 'agentformer')
             model = model_dict[model_id](cfg)
             model.set_device(device)
             model.eval()
             if epoch > 0:
                 cp_path = cfg.model_path % epoch
-                print_log(f'loading model model from checkpoint: {cp_path}', log, display=True)
+                print_log(f'loading model from checkpoint: {cp_path}', log, display=True)
                 model_cp = torch.load(cp_path, map_location='cpu')
                 model.load_state_dict(model_cp['model_dict'], strict=False)
 

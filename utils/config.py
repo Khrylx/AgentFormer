@@ -35,11 +35,11 @@ class Config:
             recreate_dirs(self.tb_dir)
 
     def get_last_epoch(self):
-        model_files = glob.glob(os.path.join(self.model_dir, 'model_*.p'))
+        model_files = sorted(glob.glob(os.path.join(self.model_dir, 'model_*.p')))
         if len(model_files) == 0:
             return None
         else:
-            model_file = osp.basename(model_files[0])
+            model_file = osp.basename(model_files[-1])
             epoch = int(osp.splitext(model_file)[0].split('model_')[-1])
             return epoch            
 

@@ -2,7 +2,7 @@
 
 description                  : AgentFormer (Before DLow)
 results_root_dir             : results
-seed                         : 1
+seed                         : 10
 dataset                      : nuscenes_pred
 data_root_ethucy             : datasets/eth_ucy
 data_root_nuscenes_pred      : datasets/nuscenes_pred

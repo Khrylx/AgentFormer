@@ -28,7 +28,7 @@ tf_nhead: 8
 tf_dropout: 0.1
 input_type: ['scene_norm', 'vel']
 pred_type: 'scene_norm'
-sn_out_type: 'vel'
+sn_out_type: 'norm'
 pos_concat: true
 rand_rot_scene: true
 
@@ -60,8 +60,11 @@ loss_cfg:
     weight: 1.0
     k: 20
 
-num_epochs                   : 50
+num_epochs                   : 100
 lr_fix_epochs                : 10
+lr_scheduler: 'step'
+decay_step: 10
+decay_gamma: 0.5
 print_freq                   : 20
 model_save_freq              : 10
 

@@ -91,7 +91,7 @@ if __name__ == '__main__':
     generator = data_generator(cfg, log, split='train', phase='training')
 
     """ model """
-    model_id = cfg.get('model_id', 'gnnv1')
+    model_id = cfg.get('model_id', 'agentformer')
     model = model_dict[model_id](cfg)
     optimizer = optim.Adam(model.parameters(), lr=cfg.lr)
     scheduler_type = cfg.get('lr_scheduler', 'linear')

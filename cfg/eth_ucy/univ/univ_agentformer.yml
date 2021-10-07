@@ -22,7 +22,7 @@ forecast_dim                 : 2
 
 model_id: dlow
 pred_cfg: univ_agentformer_pre
-pred_epoch: 100
+pred_epoch: 70
 qnet_mlp: [512, 256]
 share_eps: true
 train_w_mean: true

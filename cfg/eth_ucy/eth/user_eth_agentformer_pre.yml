@@ -32,6 +32,7 @@ sn_out_type: 'norm'
 max_train_agent: 32
 pos_concat: true
 rand_rot_scene: true
+scene_orig_all_past: true
 
 context_encoder:
   nlayer: 2

@@ -22,7 +22,7 @@ forecast_dim                 : 2
 
 model_id: dlow
 pred_cfg: zara1_agentformer_pre
-pred_epoch: 50
+pred_epoch: 100
 qnet_mlp: [512, 256]
 share_eps: true
 train_w_mean: true

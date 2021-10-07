@@ -2,7 +2,7 @@
 
 description                  : AgentFormer (Before DLow)
 results_root_dir             : results
-seed                         : 1
+seed                         : 10
 dataset                      : zara2
 data_root_ethucy             : datasets/eth_ucy
 data_root_nuscenes_pred      : datasets/nuscenes_pred
@@ -31,6 +31,7 @@ pred_type: 'scene_norm'
 sn_out_type: 'norm'
 pos_concat: true
 rand_rot_scene: true
+scene_orig_all_past: true
 
 context_encoder:
   nlayer: 2
