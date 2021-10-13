@@ -94,4 +94,4 @@ If you find our work useful in your research, please cite our paper [AgentFormer
 ```
 
 # License
-The software in this repo is freely available for free non-commercial use. Please see the [license](LICENSE) for further details.
+Please see the [license](LICENSE) for further details.
