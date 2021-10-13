@@ -9,6 +9,8 @@ Ye Yuan, Xinshuo Weng, Yanglan Ou, Kris Kitani
 # Overview
 ![Loading AgentFormer Overview](https://www.ye-yuan.com/wp-content/uploads/2021/08/agentformer_overview.png "AgentFormer Overview")
 
+# Important Note
+We have recently noticed a [normalization bug](https://github.com/Khrylx/AgentFormer/issues/5) in the code and after fixing it, the performance of our method is worse than the original numbers reported in the ICCV paper. For comparision, please use the correct numbers in the updated [arXiv version](https://arxiv.org/abs/2103.14023).
 
 # Installation 
 
