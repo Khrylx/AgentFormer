@@ -65,7 +65,7 @@ def train(epoch):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('--cfg', default='k10_res')
+    parser.add_argument('--cfg', default=None)
     parser.add_argument('--start_epoch', type=int, default=0)
     parser.add_argument('--tmp', action='store_true', default=False)
     parser.add_argument('--gpu', type=int, default=0)
