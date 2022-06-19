@@ -84,12 +84,12 @@ You can train your own models with your customized configs. Here we take the ETH
 
 # Citation
 If you find our work useful in your research, please cite our paper [AgentFormer](https://www.ye-yuan.com/agentformer/):
-```
+```bibtex
 @inproceedings{yuan2021agent,
-  title={AgentFormer: Agent-Aware Transformers for Socio-Temporal Multi-Agent Forecasting},
-  author={Yuan, Ye and Weng, Xinshuo and Ou, Yanglan and Kitani, Kris},
-  booktitle={Proceedings of the IEEE/CVF International Conference on Computer Vision (ICCV)},
-  year={2021}
+    title={AgentFormer: Agent-Aware Transformers for Socio-Temporal Multi-Agent Forecasting},
+    author={Yuan, Ye and Weng, Xinshuo and Ou, Yanglan and Kitani, Kris},
+    booktitle={Proceedings of the IEEE/CVF International Conference on Computer Vision (ICCV)},
+    year={2021}
 }
 ```
 
