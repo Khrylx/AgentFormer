@@ -1,8 +1,11 @@
 from data.nuscenes_pred_split import get_nuscenes_pred_split
 import os, random, numpy as np, copy
 
+from .tepper_preprocessor import TepperPreprocessor
 from .preprocessor import preprocess
 from .ethucy_split import get_ethucy_split
+# ADD THIS IN
+from .tepper_split import get_tepper_split
 from utils.utils import print_log
 
 
@@ -25,9 +28,14 @@ class data_generator(object):
             data_root = parser.data_root_ethucy            
             seq_train, seq_val, seq_test = get_ethucy_split(parser.dataset)
             self.init_frame = 0
+        elif parser.dataset == 'tepper':
+            data_root = parser.data_root_tepper
+            seq_train, seq_val, seq_test = get_tepper_split()
+            self.init_frame = 0
         else:
             raise ValueError('Unknown dataset!')
 
+        tepper_process_func = TepperPreprocessor
         process_func = preprocess
         self.data_root = data_root
 
@@ -42,7 +50,10 @@ class data_generator(object):
         self.sequence = []
         for seq_name in self.sequence_to_load:
             print_log("loading sequence {} ...".format(seq_name), log=log)
-            preprocessor = process_func(data_root, seq_name, parser, log, self.split, self.phase)
+            if parser.dataset == 'tepper':
+                preprocessor = tepper_process_func(data_root, seq_name, parser, log, self.split, self.phase)
+            else:
+                preprocessor = process_func(data_root, seq_name, parser, log, self.split, self.phase)
 
             num_seq_samples = preprocessor.num_fr - (parser.min_past_frames + parser.min_future_frames - 1) * self.frame_skip
             self.num_total_samples += num_seq_samples

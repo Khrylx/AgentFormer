@@ -1,14 +1,20 @@
+from cProfile import label
 import torch
 import os
 import numpy as np
 import copy
-import cv2
 import glob
+
+"""
+Only including the X, Y data.
+"""
+
 
 class TepperPreprocessor(object):
     def __init__(self, data_root, seq_name, parser, log, split='train', phase='training'):
-        tepper_path = "./datasets/tepper/Pedestrian_labels/0_frame.txt"
-        raw_data = np.genfromtxt(tepper_path, delimiter=',')
+        self.parser = parser
+        label_path = os.path.join(data_root, '{}_frame.txt'.format(seq_name))
+        raw_data = np.genfromtxt(label_path, delimiter=',')
         self.seq_name = '0'
 
         self.gt = raw_data
@@ -18,9 +24,15 @@ class TepperPreprocessor(object):
         self.num_fr = fr_end + 1 - fr_start
         self.past_frames = 8
         self.fut_frames = 12
-        self.frame_skip = 1
+        self.frame_skip = parser.frame_skip
         self.min_past_frames = 8
-        self.min_future_frames = 12 
+        self.min_future_frames = 12
+
+        self.log = log
+        self.phase = phase
+        self.split = split
+        # convert to float32
+        self.gt = self.gt.astype(np.float32)
 
     def get_id(self, data):
         id = []
@@ -32,8 +44,8 @@ class TepperPreprocessor(object):
         cur_id = self.get_id(pre_data[0])
         valid_id = []
         for idx in cur_id:
-            exist_pre = [(False if isinstance(data, list) else (idx in data[:, 1])) for data in pre_data[:min_past_frames]]
-            exist_fut = [(False if isinstance(data, list) else (idx in data[:, 1])) for data in fut_data[:min_future_frames]]
+            exist_pre = [(False if isinstance(data, list) else (idx in data[:, 1])) for data in pre_data[:self.min_past_frames]]
+            exist_fut = [(False if isinstance(data, list) else (idx in data[:, 1])) for data in fut_data[:self.min_future_frames]]
             if np.all(exist_pre) and np.all(exist_fut):
                 valid_id.append(idx)
         return valid_id
@@ -59,13 +71,13 @@ class TepperPreprocessor(object):
         mask = []
         for identity in valid_id:
             mask_i = torch.zeros(self.past_frames)
-            past_coords = torch.zeros(self.past_frames, 3)
+            past_coords = torch.zeros(self.past_frames, 2)
             for frame_idx in range(self.past_frames):
                 past_data = data_list[frame_idx]
                 if len(past_data) > 0 and identity in past_data[:, 1]:
                     # Keep all indices (x, y, z), don't apply traj scale.
                     found_data = past_data[past_data[:, 1] == identity].squeeze()
-                    past_coords[self.past_frames-1-frame_idx, :] = torch.from_numpy(found_data[[2,3,4]]).float()
+                    past_coords[self.past_frames-1-frame_idx, :] = torch.from_numpy(found_data[[2,3]]).float()
                     mask_i[self.past_frames - 1 - frame_idx] = 1.0
                 elif frame_idx > 0:
                     past_coords[self.past_frames-1 - frame_idx, :] = past_coords[self.past_frames - frame_idx, :]
@@ -81,11 +93,11 @@ class TepperPreprocessor(object):
         mask = []
         for identity in valid_id:
             mask_i = torch.zeros(self.fut_frames)
-            pos_3d = torch.zeros([self.fut_frames, 3])
+            pos_3d = torch.zeros([self.fut_frames, 2])
             for j in range(self.fut_frames):
                 fut_data = data_list[j]              # cur_data
                 if len(fut_data) > 0 and identity in fut_data[:, 1]:
-                    found_data = fut_data[fut_data[:, 1] == identity].squeeze()[[2,3,4]]
+                    found_data = fut_data[fut_data[:, 1] == identity].squeeze()[[2,3]]
                     pos_3d[j, :] = torch.from_numpy(found_data).float()
                     mask_i[j] = 1.0
                 elif j > 0:
@@ -120,6 +132,7 @@ class TepperPreprocessor(object):
             'pre_data': pre_data,
             'fut_data': fut_data,
             'heading': heading,
+            'traj_scale': 1.0,
             'valid_id': valid_id,
             'pred_mask': pred_mask,
             'scene_map': None,
