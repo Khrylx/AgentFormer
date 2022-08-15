@@ -65,11 +65,11 @@ loss_cfg:
     weight: 1.0
     k: 20
 
-num_epochs                   : 100
-lr_fix_epochs                : 10
+num_epochs                   : 10
+lr_fix_epochs                : 1
 lr_scheduler: 'step'
 decay_step: 10
 decay_gamma: 0.5
 print_freq                   : 20
-model_save_freq              : 5
+model_save_freq              : 1
 
