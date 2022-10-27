@@ -48,7 +48,7 @@ future_encoder:
 # ------------------- VAE-------------------------
 
 nz                           : 32
-sample_k                     : 20
+sample_k                     : 100
 learn_prior                  : true
 
 # ------------------- Training Parameters -------------------------

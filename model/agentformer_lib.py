@@ -15,7 +15,7 @@ from torch.nn.modules.activation import MultiheadAttention
 from torch.nn.modules.container import ModuleList
 from torch.nn.init import xavier_uniform_
 from torch.nn.modules.dropout import Dropout
-from torch.nn.modules.linear import Linear, _LinearWithBias
+from torch.nn.modules.linear import Linear, NonDynamicallyQuantizableLinear
 from torch.nn.modules.normalization import LayerNorm
 from torch.nn.init import xavier_uniform_
 from torch.nn.init import constant_
@@ -401,7 +401,7 @@ class AgentAwareAttention(Module):
             self.in_proj_bias = Parameter(torch.empty(3 * embed_dim))
         else:
             self.register_parameter('in_proj_bias', None)
-        self.out_proj = _LinearWithBias(embed_dim, embed_dim)
+        self.out_proj = NonDynamicallyQuantizableLinear(embed_dim, embed_dim)
 
         if add_bias_kv:
             self.bias_k = Parameter(torch.empty(1, 1, embed_dim))
