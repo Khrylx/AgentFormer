@@ -34,7 +34,7 @@ class preprocess(object):
             assert False, 'error'
 
         self.gt = np.genfromtxt(label_path, delimiter=delimiter, dtype=str)
-        frames = self.gt[:, 0].astype(np.float32).astype(np.int)
+        frames = self.gt[:, 0].astype(np.float32).astype(int)
         fr_start, fr_end = frames.min(), frames.max()
         self.init_frame = fr_start
         self.num_fr = fr_end + 1 - fr_start
@@ -88,7 +88,7 @@ class preprocess(object):
         return valid_id
 
     def get_pred_mask(self, cur_data, valid_id):
-        pred_mask = np.zeros(len(valid_id), dtype=np.int)
+        pred_mask = np.zeros(len(valid_id), dtype=int)
         for i, idx in enumerate(valid_id):
             pred_mask[i] = cur_data[cur_data[:, 1] == idx].squeeze()[-1]
         return pred_mask
