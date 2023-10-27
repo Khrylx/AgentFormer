@@ -5,13 +5,3 @@ six
 pyyaml
 easydict
 nuscenes-devkit
-boto3==1.26.7
-botocore==1.29.76
-hudl_moment_datasets==1.2.9
-hudl-aws==1.0.0
-hudl-grail==0.9.3
-hudl-moleskine==2.4.0
-hudl_breakdowns_core==0.4.0
-aiobotocore==2.5.0
-hudl_chunk_stream==1.0.2
-black

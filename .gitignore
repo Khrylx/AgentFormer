@@ -1,7 +1,0 @@
-# exclude efdg files
-datasets/efdg/*
-
-# exclude results files
-results/*
-
-*.pyc
