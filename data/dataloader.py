@@ -3,8 +3,16 @@ import os, random, numpy as np, copy
 
 from .preprocessor import preprocess
 from .ethucy_split import get_ethucy_split
+from .efdg_split import get_efdg_split
 from utils.utils import print_log
+# import multiprocessing
 
+# def data_preprocessing_task(seq_name: str, process_func, log, data_root, parser, split, phase, frame_skip):
+#     print_log("loading sequence {} ...".format(seq_name), log=log)
+#     preprocessor = process_func(data_root, seq_name, parser, log, split, phase)
+
+#     num_seq_samples = preprocessor.num_fr - (parser.min_past_frames + parser.min_future_frames - 1) * frame_skip
+#     return preprocessor, num_seq_samples
 
 class data_generator(object):
 
@@ -27,7 +35,7 @@ class data_generator(object):
             self.init_frame = 0
         elif parser.dataset == "efdg":
             data_root = parser.data_root_efdg            
-            seq_train, seq_val, seq_test = get_efdg_split(parser.dataset)
+            seq_train, seq_val, seq_test = get_efdg_split(data_root)
             self.init_frame = 0
         else:
             raise ValueError('Unknown dataset!')
@@ -41,9 +49,26 @@ class data_generator(object):
         elif self.split == 'test': self.sequence_to_load = seq_test
         else:                      assert False, 'error'
 
+        # pool_obj = multiprocessing.Pool()
+        # res = pool_obj.starmap(
+        #     data_preprocessing_task,
+        #     [
+        #         self.sequence_to_load,
+        #         [process_func] * len(self.sequence_to_load),
+        #         [log] * len(self.sequence_to_load),
+        #         [data_root] * len(self.sequence_to_load),
+        #         [parser] * len(self.sequence_to_load),
+        #         [self.split] * len(self.sequence_to_load),
+        #         [self.phase] * len(self.sequence_to_load),
+        #         [self.frame_skip] * len(self.sequence_to_load),
+        #     ]
+        # )
+
+
         self.num_total_samples = 0
         self.num_sample_list = []
         self.sequence = []
+        #TODO: this is slow, can it be parallelized?
         for seq_name in self.sequence_to_load:
             print_log("loading sequence {} ...".format(seq_name), log=log)
             preprocessor = process_func(data_root, seq_name, parser, log, self.split, self.phase)
