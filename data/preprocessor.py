@@ -34,7 +34,7 @@ class preprocess(object):
             assert False, 'error'
 
         self.gt = np.genfromtxt(label_path, delimiter=delimiter, dtype=str)
-        frames = self.gt[:, 0].astype(np.float32).astype(np.int)
+        frames = self.gt[:, 0].astype(np.float32).astype(int)
         fr_start, fr_end = frames.min(), frames.max()
         self.init_frame = fr_start
         self.num_fr = fr_end + 1 - fr_start

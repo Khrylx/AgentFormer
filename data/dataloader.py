@@ -25,6 +25,10 @@ class data_generator(object):
             data_root = parser.data_root_ethucy            
             seq_train, seq_val, seq_test = get_ethucy_split(parser.dataset)
             self.init_frame = 0
+        elif parser.dataset == "efdg":
+            data_root = parser.data_root_efdg            
+            seq_train, seq_val, seq_test = get_efdg_split(parser.dataset)
+            self.init_frame = 0
         else:
             raise ValueError('Unknown dataset!')
 
